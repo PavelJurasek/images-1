@@ -53,7 +53,7 @@ class Extension extends Nette\DI\CompilerExtension {
 		} else {
 			$config = $this->getConfig($this->defaults); // deprecated
 		}
-		
+
 		// Validation
 		$quality = $config['quality'];
 		if (!is_int($quality) || $quality < 0 || $quality > 100) {
@@ -63,25 +63,4 @@ class Extension extends Nette\DI\CompilerExtension {
 		return $config;
 	}
 
-	/**
-	 * @param Nette\PhpGenerator\ClassType $class
-	 */
-	public function afterCompile(Nette\PhpGenerator\ClassType $class) {
-		$methods = $class->getMethods();
-		$init = $methods['initialize'];
-
-		$config = $this->getSettings();
-
-		if ($config['registration']['upload'] && class_exists('Nette\Forms\Form')) {
-			$init->addBody('WebChemistry\Images\Controls\Upload::register();');
-		}
-
-		if ($config['registration']['multiUpload'] && class_exists('Nette\Forms\Form')) {
-			$init->addBody('WebChemistry\Images\Controls\MultiUpload::register();');
-		}
-
-		if ($config['checkbox']['caption']) {
-			$init->addBody('WebChemistry\Images\Controls\Checkbox::$globalCaption = ?;', [$config['checkbox']['caption']]);
-		}
-	}
 }
