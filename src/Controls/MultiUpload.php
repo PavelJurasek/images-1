@@ -7,7 +7,6 @@ use Nette\Forms\Controls\UploadControl;
 use Nette\Forms\Form;
 use Nette\Forms\Validator;
 use Nette\Http\FileUpload;
-use Nette\Object;
 use WebChemistry\Images\AbstractStorage;
 use WebChemistry\Images\ImageStorageException;
 
@@ -278,13 +277,6 @@ class MultiUpload extends UploadControl {
 		if (!is_string($controlName)) {
 			throw new ImageStorageException(sprintf('Control name must be a string, %s given', gettype($controlName)));
 		}
-
-		Object::extensionMethod('Nette\Forms\Container::' . $controlName, function ($form, $name, $label = NULL, $namespace = NULL) {
-			$control = new self($label);
-			$control->setNamespace($namespace);
-
-			return $form[$name] = $control;
-		});
 	}
 
 }
